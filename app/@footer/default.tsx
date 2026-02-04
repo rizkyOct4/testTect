@@ -1,5 +1,7 @@
+import Footer from "./footer"
+
 const defaultFooter = () => {
-    return
+    return <Footer />
 }
 
 export default defaultFooter

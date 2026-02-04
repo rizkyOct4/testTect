@@ -3,10 +3,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useContext, memo } from "react";
-import { indexContext } from "@/app/context";
+import { eachCategoriesContext } from "@/app/context";
 
 const PopularNews = () => {
-  const { PopularNewsData } = useContext(indexContext);
+  const { PopularNewsData } = useContext(eachCategoriesContext);
 
   return (
     <section className="mx-auto max-w-7xl px-20 py-8">
@@ -28,7 +28,7 @@ const PopularNews = () => {
               {/* Image + number */}
               <div className="relative h-20 w-28 shrink-0 rounded-lg">
                 <Image
-                  src={i.image.small}
+                  src={i.image}
                   alt={i.title}
                   fill
                   className="object-cover"

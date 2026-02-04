@@ -1,18 +1,18 @@
 "use client";
 
-import React, { useState, useContext } from "react";
-import Link from "next/link";
+import React, { useContext, memo } from "react";
 import { detailContext } from "@/app/context";
 import Image from "next/image";
+import CommentSection from "./comment";
+import ForYouNews from "./for-you";
 
 const DetailContent = () => {
   const { DetailData } = useContext(detailContext);
-  //   console.log(DetailData)
 
   return (
     <section className="mx-auto max-w-7xl p-14">
       {DetailData && (
-        <div className="flex flex-col gap-10">
+        <div className="flex flex-col gap-10 mb-10">
           <div className="w-full">
             <h1 className="text-2xl font-bold leading-snug text-black md:text-3xl">
               {DetailData.title}
@@ -45,8 +45,10 @@ const DetailContent = () => {
           <p className="text-black">{DetailData.description}</p>
         </div>
       )}
+      <CommentSection />
+      <ForYouNews />
     </section>
   );
 };
 
-export default DetailContent;
+export default memo(DetailContent);

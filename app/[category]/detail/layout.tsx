@@ -5,7 +5,7 @@ interface Props {
   sidebar: React.ReactNode;
 }
 
-const IndexLayout = ({ content, sidebar }: Props) => {
+const Layout = ({ content, sidebar }: Props) => {
   return (
     <DetailContext>
       <main className="flex min-h-screen justify-center font-san gap-4 bg-white pt-15">
@@ -16,4 +16,4 @@ const IndexLayout = ({ content, sidebar }: Props) => {
   );
 };
 
-export default IndexLayout;
+export default Layout;

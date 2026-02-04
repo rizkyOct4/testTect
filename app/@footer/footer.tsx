@@ -5,12 +5,14 @@ import { memo } from "react";
 
 const telusuri = [
   "Beranda",
-  "Kesehatan",
-  "Otomotif",
-  "Politik",
-  "Olahraga",
+  "Terbaru",
   "Nasional",
   "Internasional",
+  "Ekonomi",
+  "Olahraga",
+  "Teknologi",
+  "Hiburan",
+  "Gaya Hidup",
 ];
 
 const Footer = () => {
@@ -18,7 +20,6 @@ const Footer = () => {
     <footer className="bg-slate-800 text-slate-200">
       <div className="mx-auto max-w-7xl px-6 py-12">
         <div className="flex flex-col gap-10 md:flex-row">
-          {/* Brand */}
           <div className="md:w-1/4">
             <div className="mb-4 flex items-center gap-2">
               <div className="flex h-9 w-9 items-center justify-center rounded-full border border-white/30">
@@ -35,7 +36,6 @@ const Footer = () => {
               <p className="mb-3 text-sm font-medium">Ikuti Kami</p>
 
               <div className="flex items-center gap-3">
-                {/* icons... tetap sama */}
               </div>
             </div>
           </div>

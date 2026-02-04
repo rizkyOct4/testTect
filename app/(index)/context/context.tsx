@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { indexContext } from "@/app/context";
 import { useIndex } from "../hook/hook-index";
 
@@ -8,10 +8,25 @@ interface IndexProviderProps {
   children: React.ReactNode;
 }
 
+export type CategoryType =
+  | "terkini"
+  | "nasional"
+  | "internasional"
+  | "ekonomi"
+  | "olahraga"
+  | "teknologi"
+  | "hiburan"
+  | "gaya-hidup"
+  | "";
+
 const IndexContext: React.FC<IndexProviderProps> = ({ children }) => {
+  const [categoryActive, setCategoryActive] = useState<CategoryType>("");
+
   const data = useIndex();
   const values = {
     ...data,
+    categoryActive,
+    setCategoryActive,
   };
 
   return (

@@ -1,4 +1,6 @@
+import Navbar from "./navbar";
+
 const NavDefault = () => {
-    return
-}
-export default NavDefault
+  return <Navbar />;
+};
+export default NavDefault;

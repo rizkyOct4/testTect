@@ -4,47 +4,44 @@ export async function GET(
   req: NextRequest,
 ) {
   const key = req.nextUrl.searchParams.get("key") as string;
-  const id = Number(req.nextUrl.searchParams.get("id"));
   const limit = Number(req.nextUrl.searchParams.get("limit") ?? "");
   const pageParam = Number(req.nextUrl.searchParams.get("page-param") ?? "");
   const offset = Number((pageParam - 1) * limit);
 
   switch (key) {
-    case "detail-content": {
+    case "headline": {
       const res = await fetch(
-        "https://berita-indo-api-next.vercel.app/api/kumparan-news/",
-      );
-      const output = await res.json();
-      const item = output?.data?.[id];
-      return NextResponse.json(item);
-    }
-    case "detail-for-you": {
-      const res = await fetch(
-        "https://berita-indo-api-next.vercel.app/api/kumparan-news/",
+        "https://berita-indo-api-next.vercel.app/api/cnn-news/",
       );
       const json = await res.json();
       const hasMore = offset + limit < Number(json.data.length);
-
-      const filterData = json.data.filter((_: any, index: number) => index !== Number(id)); // ! RETURN ARRAY !!!
-      const data = filterData.slice(offset, offset + limit);
+      const data = json.data.slice(offset, offset + limit);
+      const total = json.total;
+      return NextResponse.json({ data, hasMore, total });
+    }
+    case "popular-news": {
+      const res = await fetch(
+        "https://berita-indo-api-next.vercel.app/api/cnn-news/",
+      );
+      const json = await res.json();
+      const hasMore = offset + limit < Number(json.data.length);
+      const data = json.data.slice(offset, offset + limit);
       const total = json.total;
       return NextResponse.json({ data, hasMore, total });
     }
     case "detail-sidebar": {
       const res = await fetch(
-        "https://berita-indo-api-next.vercel.app/api/kumparan-news/",
+        "https://berita-indo-api-next.vercel.app/api/cnn-news/",
       );
       const json = await res.json();
       const hasMore = offset + limit < Number(json.data.length);
-
-      const filterData = json.data.filter((_: any, index: number) => index !== Number(id)); // ! RETURN ARRAY !!!
-      const data = filterData.slice(offset, offset + limit);
+      const data = json.data.slice(offset, offset + limit);
       const total = json.total;
       return NextResponse.json({ data, hasMore, total });
     }
     default: {
       const res = await fetch(
-        "https://berita-indo-api-next.vercel.app/api/kumparan-news/",
+        "https://berita-indo-api-next.vercel.app/api/cnn-news/",
       );
       const json = await res.json();
       const hasMore = offset + limit < Number(json.data.length);

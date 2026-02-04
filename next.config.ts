@@ -15,6 +15,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "blue.kumparan.com",
       },
+      {
+        protocol: "https",
+        hostname: "img.antaranews.com",
+      },
     ],
   },
 };

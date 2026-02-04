@@ -3,10 +3,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useCallback, useContext, memo } from "react";
-import { indexContext } from "@/app/context";
+import { eachCategoriesContext } from "@/app/context";
 
 const Headline = () => {
-  const { HeadlineData } = useContext(indexContext);
+  const { HeadlineData } = useContext(eachCategoriesContext);
 
   const [activeIndex, setActiveIndex] = useState(0);
   const isDataActive = HeadlineData[activeIndex];
@@ -66,7 +66,7 @@ const Headline = () => {
 
           <div className="relative h-55 w-full overflow-hidden rounded-2xl md:h-70 md:w-1/2">
             <Image
-              src={isDataActive?.image?.large || isDataActive?.image}
+              src={isDataActive?.image}
               alt="#"
               fill
               className="object-cover"

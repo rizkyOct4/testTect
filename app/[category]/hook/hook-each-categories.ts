@@ -3,13 +3,18 @@
 import { keepPreviousData, useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useMemo } from "react";
+import { useParams } from "next/navigation";
+import type { CategoryType } from "@/app/(index)/context/context";
 
-export const useIndex = () => {
+export const useEachCategories = (categoryActive: CategoryType) => {
+  const { category: categoryPath } =
+    useParams<{ category: string | undefined }>() ?? "";
+
   // ? HEADLINE
   const { data: fHeadline } = useInfiniteQuery({
-    queryKey: ["keyHeadline"],
+    queryKey: [`keyHeadline${categoryPath}`],
     queryFn: async ({ pageParam = 1 }) => {
-      const URL = `/api/cnn-news?key=headline&limit=5&page-param=${pageParam}`;
+      const URL = `/${categoryPath}/api/antara-news/${categoryPath}?key=headline${categoryPath}&limit=5&page-param=${pageParam}`;
       const { data } = await axios.get(URL);
       return data;
     },
@@ -21,7 +26,8 @@ export const useIndex = () => {
     staleTime: 1000 * 60 * 3,
     gcTime: 1000 * 60 * 60,
     initialPageParam: 1,
-    // enabled: !!currentPath,
+    enabled:
+      !!categoryPath && categoryPath === categoryActive && categoryPath !== "",
     placeholderData: keepPreviousData,
     refetchOnWindowFocus: false, // Tidak refetch saat kembali ke aplikasi
     refetchOnMount: false, // "always" => refetch jika stale saja
@@ -30,9 +36,9 @@ export const useIndex = () => {
 
   // ? POPULAR NEWS
   const { data: fPopularNews } = useInfiniteQuery({
-    queryKey: ["keyPopularNews"],
+    queryKey: [`keyPopularNews${categoryPath}`],
     queryFn: async ({ pageParam = 1 }) => {
-      const URL = `/api/cnn-news?key=popular-news&limit=3&page-param=${pageParam}`;
+      const URL = `/${categoryPath}/api/antara-news/${categoryPath}?key=popular-news-${categoryPath}&limit=3&page-param=${pageParam}`;
       const { data } = await axios.get(URL);
       return data;
     },
@@ -44,7 +50,8 @@ export const useIndex = () => {
     staleTime: 1000 * 60 * 3,
     gcTime: 1000 * 60 * 60,
     initialPageParam: 1,
-    // enabled: !!currentPath,
+    enabled:
+      !!categoryPath && categoryPath === categoryActive && categoryPath !== "",
     placeholderData: keepPreviousData,
     refetchOnWindowFocus: false, // Tidak refetch saat kembali ke aplikasi
     refetchOnMount: false, // "always" => refetch jika stale saja
@@ -58,13 +65,12 @@ export const useIndex = () => {
     hasNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery({
-    queryKey: ["keyRecomendation"],
+    queryKey: [`keyRecomendation${categoryPath}`],
     queryFn: async ({ pageParam = 1 }) => {
-      const URL = `/api/kumparan-news?limit=8&page-param=${pageParam}`;
+      const URL = `/${categoryPath}/api/antara-news/${categoryPath}?key=recomendation-news-${categoryPath}&limit=8&page-param=${pageParam}`;
       const { data } = await axios.get(URL);
       return data;
     },
-
     // ? ketika melakukan fetchNextPage maka akan memanggil queryFn kembali
     getNextPageParam: (lastPage, allPages) => {
       return lastPage?.hasMore ? allPages.length + 1 : undefined;
@@ -72,14 +78,15 @@ export const useIndex = () => {
     staleTime: 1000 * 60 * 3,
     gcTime: 1000 * 60 * 60,
     initialPageParam: 1,
-    // enabled: !!currentPath,
+    enabled:
+      !!categoryPath && categoryPath === categoryActive && categoryPath !== "",
     placeholderData: keepPreviousData,
     refetchOnWindowFocus: false, // Tidak refetch saat kembali ke aplikasi
     refetchOnMount: false, // "always" => refetch jika stale saja
     retry: false,
   });
 
-  // * DATA =================
+  //* DATA =================
   const HeadlineData = useMemo(
     () => fHeadline?.pages.flatMap((page) => page.data) ?? [],
     [fHeadline?.pages],

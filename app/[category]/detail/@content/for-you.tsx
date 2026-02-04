@@ -1,47 +1,36 @@
 "use client";
 
-import { indexContext } from "@/app/context";
+import { detailContext } from "@/app/context";
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useCallback, memo, useContext } from "react";
-import { Loading } from "@/_util/loading";
 
-const RecomendationNews = () => {
-  const {
-    RecomendationData,
-    RecomendationSectionData,
-    RecomendationTotalData,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-  } = useContext(indexContext);
-  const [isDataActive, setIsDataActive] = useState(0);
-  const isAmount = RecomendationTotalData[0];
+const ForYouNews = () => {
+  const { DetailForYouData } = useContext(detailContext);
+  //   const [isDataActive, setIsDataActive] = useState(0);
 
-  const handleAction = useCallback(
-    (e: React.SyntheticEvent, actionType: string) => {
-      e.preventDefault();
-      switch (actionType) {
-        case "next":
-          if (hasNextPage) fetchNextPage();
-          setIsDataActive(isDataActive + 1);
-          break;
-      }
-    },
-    [fetchNextPage, hasNextPage, isDataActive],
-  );
+  //   const handleAction = useCallback(
+  //     (e: React.SyntheticEvent, actionType: string) => {
+  //       e.preventDefault();
+  //       switch (actionType) {
+  //         case "next":
+  //           if (hasNextPage) fetchNextPage();
+  //           setIsDataActive(isDataActive + 1);
+  //           break;
+  //       }
+  //     },
+  //     [fetchNextPage, hasNextPage, isDataActive],
+  //   );
 
   return (
-    <section className="mx-auto max-w-7xl px-20 py-6">
+    <section className="mx-auto max-w-7xl py-6">
       <div className="mb-5 flex items-center gap-2">
         <span className="h-4 w-1 rounded-full bg-blue-500" />
-        <h2 className="text-sm font-semibold text-black">
-          Rekomendasi untuk anda
-        </h2>
+        <h2 className="text-sm font-semibold text-black">Berita Terkait</h2>
       </div>
       <div className="flex flex-wrap gap-6">
-        {Array.isArray(RecomendationData) &&
-          RecomendationData.map((i: any, idx: number) => {
+        {Array.isArray(DetailForYouData) &&
+          DetailForYouData.map((i: any, idx: number) => {
             const cat = i.categories[0]
               .toLowerCase()
               .replace(/&/g, "dan")
@@ -54,9 +43,7 @@ const RecomendationNews = () => {
                 href={`/${encodeURIComponent(cat)}/detail?id=${idx}`}
                 className="
               group
-              w-full
-              sm:basis-[calc(50%-12px)]
-              lg:basis-[calc(25%-18px)]
+              w-[22%] mx-auto
             "
               >
                 <article className="flex h-full flex-col">
@@ -87,31 +74,9 @@ const RecomendationNews = () => {
               </Link>
             );
           })}
-        {isFetchingNextPage && <Loading />}
-      </div>
-
-      <div className="mt-20 flex items-center justify-between gap-2 text-sm">
-        <div>
-          <p className="text-black">
-            Showing {RecomendationData.length} of {isAmount}
-            result
-          </p>
-        </div>
-
-        <div className="flex items-center justify-center gap-2 text-sm">
-          <p className="flex h-8 w-8 items-center justify-center rounded bg-blue-600 text-white">
-            {RecomendationSectionData}
-          </p>
-          <button
-            className="text-gray-400 hover:text-black"
-            onClick={(e) => handleAction(e, "next")}
-          >
-            Next &rsaquo;
-          </button>
-        </div>
       </div>
     </section>
   );
 };
 
-export default memo(RecomendationNews);
+export default ForYouNews;

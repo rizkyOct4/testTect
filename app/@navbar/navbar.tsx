@@ -1,21 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useRouter } from "next/navigation";
+import { indexContext } from "../context";
 
 const categories = [
   { label: "Beranda", slug: "beranda" },
-  { label: "Terbaru", slug: "terbaru" },
+  { label: "Terkini", slug: "terkini" },
   { label: "Nasional", slug: "nasional" },
   { label: "Internasional", slug: "internasional" },
   { label: "Ekonomi", slug: "ekonomi" },
   { label: "Olahraga", slug: "olahraga" },
-  { label: "Teknologi", slug: "teknologi" },
+  { label: "Teknologi", slug: "tekno" },
   { label: "Hiburan", slug: "hiburan" },
-  { label: "Gaya Hidup", slug: "gaya-hidup" },
+  { label: "Gaya Hidup", slug: "lifestyle" },
 ];
 
 const Navbar = () => {
+  const { setCategoryActive } = useContext(indexContext);
   const router = useRouter();
   const [isActive, setIsActive] = useState("beranda");
 
@@ -38,8 +40,15 @@ const Navbar = () => {
                       onClick={() => {
                         setIsActive(item.slug);
                         if (item.slug === "beranda") {
+                          setCategoryActive("");
                           router.push(`/`);
+                        } else if (
+                          item.slug === "nasional" ||
+                          item.slug === "internasional"
+                        ) {
+                          return;
                         } else {
+                          setCategoryActive(item.slug);
                           router.push(`/${item.slug}`);
                         }
                       }}
